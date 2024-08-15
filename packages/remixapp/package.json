@@ -4,10 +4,10 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "remix build",
+    "build": "nx remix:build",
     "dev": "remix dev",
     "start": "remix-serve build",
-    "test": "jest"
+    "test": "nx jest:test"
   },
   "dependencies": {
     "@remix-run/node": "^1.5.1",

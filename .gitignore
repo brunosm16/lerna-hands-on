@@ -7,3 +7,8 @@ packages/remixapp/build
 packages/remixapp/public/build
 .env
 
+
+
+
+.nx/cache
+.nx/workspace-data

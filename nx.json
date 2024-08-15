@@ -1,5 +1,5 @@
 {
-  "$schema": "node_modules/nx/schemas/nx-schema.json",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx/tasks-runners/default",
@@ -19,29 +19,75 @@
       "!{projectRoot}/**/*.spec.tsx"
     ],
     "production": [
-      "default"
+      "default",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/test-setup.[jt]s",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.js"
     ]
   },
   "targetDefaults": {
     "build": {
-      "inputs": [
-        "prod",
-        "^prod"
-      ],
       "dependsOn": [
         "^build"
-      ]
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "cache": true
     },
     "test": {
-      "inputs": [
-        "default",
-        "^prod"
-      ]
+      "dependsOn": [
+        "^test"
+      ],
+      "cache": true
     },
     "dev": {
       "dependsOn": [
-        "^build"
-      ]
+        "^dev"
+      ],
+      "cache": true
+    },
+    "start": {
+      "dependsOn": [
+        "^start"
+      ],
+      "cache": true
     }
-  }
+  },
+  "defaultBase": "main",
+  "plugins": [
+    {
+      "plugin": "@nx/rollup/plugin",
+      "options": {
+        "buildTargetName": "rollup:build"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "jest:test"
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/remix/plugin",
+      "options": {
+        "startTargetName": "remix:start",
+        "buildTargetName": "remix:build",
+        "devTargetName": "remix:dev",
+        "typecheckTargetName": "typecheck",
+        "staticServeTargetName": "static-serve"
+      }
+    }
+  ],
+  "nxCloudAccessToken": "Y2E4YjY5YTMtYmM0OS00YmJlLTgwOTgtZTEyMjVkYWZkMzVkfHJlYWQtd3JpdGU="
 }
